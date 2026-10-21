@@ -1,0 +1,100 @@
+/* Custom styling for Emotion Detection Web Application */
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    padding: 40px 15px;
+    color: #2d3748;
+}
+
+.card {
+    max-width: 760px;
+    margin: 0 auto;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    background: #ffffff;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.card-body {
+    padding: 40px 35px;
+}
+
+.center-heading {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 25px;
+    letter-spacing: -0.5px;
+}
+
+.form-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 12px;
+    display: block;
+}
+
+#textToAnalyze {
+    width: 100%;
+    min-height: 100px;
+    border-radius: 10px;
+    border: 1.5px solid #e2e8f0;
+    padding: 14px 16px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#textToAnalyze:focus {
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
+    outline: none;
+}
+
+.btn-secondary {
+    background-color: #0062ff;
+    border: none;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 12px 28px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #004ecc;
+    transform: translateY(-1px);
+}
+
+.btn-secondary:active {
+    transform: translateY(1px);
+}
+
+#system_response {
+    background: #f7fafc;
+    border: 1px solid #edf2f7;
+    border-radius: 10px;
+    padding: 18px 22px;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #2d3748;
+    min-height: 60px;
+    transition: all 0.2s ease;
+}
+
+#system_response b {
+    color: #0062ff;
+    font-weight: 700;
+    text-transform: capitalize;
+}
