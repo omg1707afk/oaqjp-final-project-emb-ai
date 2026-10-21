@@ -3,11 +3,11 @@ import json
 import requests
 
 
-def emotion_detector(text_to_analyze):
+def emotion_detector(text_to_analyse):
     """Detect emotions in the given text using Watson NLP Emotion Predict service.
 
     Args:
-        text_to_analyze (str): Text to be analyzed.
+        text_to_analyse (str): Text to be analyzed.
 
     Returns:
         dict: Emotion scores for anger, disgust, fear, joy, sadness,
@@ -23,7 +23,7 @@ def emotion_detector(text_to_analyze):
         'dominant_emotion': None
     }
 
-    if not text_to_analyze or not str(text_to_analyze).strip():
+    if not text_to_analyse or not str(text_to_analyse).strip():
         return error_response
 
     url = (
@@ -33,10 +33,13 @@ def emotion_detector(text_to_analyze):
     headers = {
         "grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"
     }
-    payload = {"raw_document": {"text": text_to_analyze}}
+    payload = {"raw_document": {"text": text_to_analyse}}
 
     try:
         response = requests.post(url, json=payload, headers=headers, timeout=5)
+        if response.status_code == 400:
+            return error_response
+
         if response.status_code != 200:
             return error_response
 
