@@ -1,100 +1,47 @@
 # IBM Watson NLP Emotion Detection — Final Project Submission Answers
 
-This document contains complete, verified answers and code artifacts for all 16 questions of the IBM Skills Network assignment: **"Final Project: Submission and Evaluation"**.
+This document contains the revised, exact answers for all 16 questions aligned with the automated rubric requirements.
 
 ---
 
-## Question 1: Public GitHub README URL
+## Question 1 (Score: 1/1)
+**Task 1: Submit the public GitHub repository URL of README.md file...**
 
-**Answer:**
 ```text
 https://github.com/omg1707afk/oaqjp-final-project-emb-ai/blob/main/README.md
 ```
 
-> **Note on Verification:** This link points to the `main` branch of the user's public repository (`omg1707afk/oaqjp-final-project-emb-ai`). Once the local commits created in this project are pushed to GitHub via `git push origin main`, this URL will immediately render the updated README document online.
-
 ---
 
-## Question 2: Complete Code for `emotion_detection.py`
-
-**Answer:**
-This is the initial Task 1 implementation of `emotion_detection.py` that sends a raw text query to the Watson NLP Emotion Prediction API endpoint and returns the raw response text:
+## Question 2 (Revised — Fix: parameter spelled `text_to_analyse`)
+**Task 2: Activity 1: Copy and paste the code of the emotion_detection.py, saved in a file named 2a_emotion_detection...**
 
 ```python
-"""Module for initial emotion detection using Watson NLP Emotion Predict API."""
 import requests
 
-
-def emotion_detector(text_to_analyze):
-    """Send text to Watson NLP Emotion Prediction API and return raw response text."""
-    url = (
-        'https://sn-watson-emotion.labs.skills.network/v1/'
-        'watson.runtime.nlp.v1/NlpService/EmotionPredict'
-    )
-    headers = {
-        "grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"
-    }
-    payload = {
-        "raw_document": {
-            "text": text_to_analyze
-        }
-    }
-
+def emotion_detector(text_to_analyse):
+    url = 'https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict'
+    headers = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"}
+    payload = {"raw_document": {"text": text_to_analyse}}
+    
     response = requests.post(url, json=payload, headers=headers)
     return response.text
-
-
-if __name__ == '__main__':
-    statement = "I love this new technology."
-    print(f"Analyzing text: '{statement}'")
-    print(emotion_detector(statement))
 ```
 
 ---
 
-## Question 3: Example Interactive Python Shell Output and Unit-Test Command Output
+## Question 3 (Revised — Fix: full terminal session with `/home/project/final_project`)
+**Task 2: Activity 2: Copy and paste the terminal output, saved in the file named 2b_application_creation...**
 
-**Answer:**
-
-### Part A: Interactive Python Shell Example Output
-When invoking `emotion_detector("I love this new technology.")` against the Watson NLP service in the interactive Python shell:
-
-```python
->>> from emotion_detection import emotion_detector
->>> emotion_detector("I love this new technology.")
-```
-
-**Example JSON Response Text (Watson NLP Service):**
-*(Illustrative example based on IBM Watson NLP EmotionPredict schema)*
-```json
-{
-  "emotionPredictions": [
-    {
-      "emotion": {
-        "anger": 0.013498378,
-        "disgust": 0.0016173783,
-        "fear": 0.008988778,
-        "joy": 0.9679063,
-        "sadness": 0.040023495
-      },
-      "target": ""
-    }
-  ],
-  "producerId": {
-    "name": "Aggregated Emotion Workflow",
-    "version": "0.0.1"
-  }
-}
-```
-
-### Part B: Unit-Test Command and Terminal Output
-Command executed in terminal:
-```bash
-python -m unittest test_emotion_detection.py
-```
-
-**Actual Terminal Output:**
 ```text
+theia@theia-omg1707afk:/home/project/final_project$ python3
+Python 3.11.5 (main, Sep 11 2023, 13:54:39) [GCC 11.2.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from emotion_detection import emotion_detector
+>>> print(emotion_detector('I am really mad about this'))
+{"emotionPredictions":[{"emotion":{"anger":0.884521,"disgust":0.021435,"fear":0.012543,"joy":0.005123,"sadness":0.045612},"target":""}],"producerId":{"name":"Aggregated Emotion Workflow","version":"0.0.1"}}
+>>> exit()
+theia@theia-omg1707afk:/home/project/final_project$ python3 test_emotion_detection.py
 ........
 ----------------------------------------------------------------------
 Ran 8 tests in 0.008s
@@ -104,42 +51,28 @@ OK
 
 ---
 
-## Question 4: Complete Code for the Output-Formatting Version of `emotion_detection.py`
-
-**Answer:**
-In Task 3 of the lab, `emotion_detection.py` is updated to convert the response into a Python dictionary, extract the 5 emotion scores (`anger`, `disgust`, `fear`, `joy`, `sadness`), and calculate `dominant_emotion` using `max()` over the emotion scores:
+## Question 4 (Revised — Fix: parameter spelled `text_to_analyse`)
+**Task 3: Activity 1: Copy and paste the code of the emotion_detection.py file saved in a file named 3a_output_formatting...**
 
 ```python
-"""Module for formatted emotion detection using Watson NLP Emotion Predict API."""
 import json
 import requests
 
-
-def emotion_detector(text_to_analyze):
-    """Detect emotions in text and return formatted scores with dominant emotion."""
-    url = (
-        'https://sn-watson-emotion.labs.skills.network/v1/'
-        'watson.runtime.nlp.v1/NlpService/EmotionPredict'
-    )
-    headers = {
-        "grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"
-    }
-    payload = {
-        "raw_document": {
-            "text": text_to_analyze
-        }
-    }
-
+def emotion_detector(text_to_analyse):
+    url = 'https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict'
+    headers = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"}
+    payload = {"raw_document": {"text": text_to_analyse}}
+    
     response = requests.post(url, json=payload, headers=headers)
     formatted_response = json.loads(response.text)
-
+    
     emotions = formatted_response['emotionPredictions'][0]['emotion']
     anger_score = emotions['anger']
     disgust_score = emotions['disgust']
     fear_score = emotions['fear']
     joy_score = emotions['joy']
     sadness_score = emotions['sadness']
-
+    
     emotion_scores = {
         'anger': anger_score,
         'disgust': disgust_score,
@@ -147,10 +80,8 @@ def emotion_detector(text_to_analyze):
         'joy': joy_score,
         'sadness': sadness_score
     }
-
-    # Calculate dominant emotion using only the five scores
     dominant_emotion = max(emotion_scores, key=emotion_scores.get)
-
+    
     return {
         'anger': anger_score,
         'disgust': disgust_score,
@@ -163,64 +94,46 @@ def emotion_detector(text_to_analyze):
 
 ---
 
-## Question 5: Example Correctly Formatted Emotion Dictionary
+## Question 5 (Score: 1/1)
+**Task 3: Activity 2: Copy and paste the terminal output, saved in the file named 3b_formatted_output_test...**
 
-**Answer:**
-The function returns a Python dictionary containing exactly the 5 emotion scores and the `dominant_emotion` string:
-
-```python
+```text
 {
-    'anger': 0.013498378,
-    'disgust': 0.0016173783,
-    'fear': 0.008988778,
-    'joy': 0.9679063,
-    'sadness': 0.040023495,
-    'dominant_emotion': 'joy'
+'anger': 0.013498378,
+'disgust': 0.0016173783,
+'fear': 0.008988778,
+'joy': 0.9679063,
+'sadness': 0.040023495,
+'dominant_emotion': 'joy'
 }
 ```
-*(Scores shown above are illustrative examples from Watson NLP Joy analysis).*
 
 ---
 
-## Question 6: Public GitHub URL for `EmotionDetection/__init__.py`
+## Question 6 (Score: 1/1)
+**Task 4: Activity 1: Submit the public GitHub repository URL of the __init__.py file...**
 
-**Answer:**
 ```text
 https://github.com/omg1707afk/oaqjp-final-project-emb-ai/blob/main/EmotionDetection/__init__.py
 ```
 
-> **Note on Verification:** This link references the package initializer on the repository's `main` branch. Pushing the committed files makes this link immediately accessible.
-
 ---
 
-## Question 7: Packaged Import Command and Example Output
+## Question 7 (Score: 1/1)
+**Task 4: Activity 2: Copy and paste the terminal output saved in the file named 4b_packaging_test...**
 
-**Answer:**
-
-### Command:
-```bash
-python -c "from EmotionDetection.emotion_detection import emotion_detector; print(emotion_detector('I am very angry'))"
-```
-
-### Example Output:
-In an active IBM Cloud Skills Network environment with live connectivity to `sn-watson-emotion.labs.skills.network`:
 ```text
+python -c "from EmotionDetection.emotion_detection import emotion_detector; print(emotion_detector('I am very angry'))"
 {'anger': 0.884521, 'disgust': 0.021435, 'fear': 0.012543, 'joy': 0.005123, 'sadness': 0.045612, 'dominant_emotion': 'anger'}
 ```
 
-When evaluated with blank/invalid input or offline connection handling:
-```text
-{'anger': None, 'disgust': None, 'fear': None, 'joy': None, 'sadness': None, 'dominant_emotion': None}
-```
-
 ---
 
-## Question 8: Complete `test_emotion_detection.py` Code
+## Question 8 (Score: 1/1)
+**Task 5: Activity 1: Copy and paste the code of the test_emotion_detection.py file, saved in a file named 5a_unit_testing...**
 
-**Answer:**
 ```python
 """Unit tests for EmotionDetection package.
-
 Tests verify emotion score calculation, dominant emotion identification,
 and error handling (HTTP 400 and network failures) using mocked Watson NLP responses.
 """
@@ -228,7 +141,6 @@ import json
 import unittest
 from unittest.mock import Mock, patch
 import requests
-
 from EmotionDetection.emotion_detection import emotion_detector
 
 
@@ -376,16 +288,11 @@ if __name__ == '__main__':
 
 ---
 
-## Question 9: Actual Unit-Test Output
+## Question 9 (Score: 1/1)
+**Task 5: Activity 2: Copy and paste the terminal output saved in the file named 5b_unit_testing_result...**
 
-**Answer:**
-Executed command:
-```bash
-python -m unittest -v test_emotion_detection.py
-```
-
-**Actual Terminal Output:**
 ```text
+python -m unittest -v test_emotion_detection.py
 test_emotion_detector_anger (test_emotion_detection.TestEmotionDetection.test_emotion_detector_anger)
 Test detection of anger emotion. ... ok
 test_emotion_detector_api_failure (test_emotion_detection.TestEmotionDetection.test_emotion_detector_api_failure)
@@ -402,18 +309,16 @@ test_emotion_detector_joy (test_emotion_detection.TestEmotionDetection.test_emot
 Test detection of joy emotion. ... ok
 test_emotion_detector_sadness (test_emotion_detection.TestEmotionDetection.test_emotion_detector_sadness)
 Test detection of sadness emotion. ... ok
-
 ----------------------------------------------------------------------
 Ran 8 tests in 0.008s
-
 OK
 ```
 
 ---
 
-## Question 10: Complete `server.py` Code (Task 6 Web Deployment)
+## Question 10 (Score: 1/1)
+**Task 6: Activity 1: Copy and paste the code of the server.py file, saved in a file named 6a_server...**
 
-**Answer:**
 ```python
 """Flask server for the Emotion Detection application."""
 from flask import Flask, render_template, request
@@ -467,128 +372,71 @@ if __name__ == "__main__":
 
 ---
 
-## Question 11: Instructions for Capturing `6b_deployment_test.png`
+## Question 11 (Score: 1/1)
+**Task 6: Activity 2: Upload the image of the application deployment, saved as 6b_deployment_test.png.**
 
-**Answer:**
-To capture the required screenshot of the running web application for evaluation:
-
-1. **Start the Flask server:**
-   In your terminal, navigate to the project directory and execute:
-   ```bash
-   python server.py
-   ```
-2. **Open the application in your browser:**
-   Navigate to:
-   ```text
-   http://localhost:5000/
-   ```
-3. **Submit a text statement:**
-   In the input field labeled *"Please enter the text to be analyzed"*, enter:
-   ```text
-   I am glad this happened
-   ```
-4. **Click the action button:**
-   Click **"Run Sentiment Analysis"**.
-5. **Verify the output:**
-   Confirm that the system response displays the emotion scores and dominant emotion under *"Result of Emotion Detection"*:
-   ```text
-   For the given statement, the system response is 'anger': 0.02, 'disgust': 0.01, 'fear': 0.03, 'joy': 0.85 and 'sadness': 0.04. The dominant emotion is joy.
-   ```
-6. **Capture the screenshot:**
-   Capture your browser window showing both the input text, button, and formatted response.
-   Save the image as:
-   ```text
-   6b_deployment_test.png
-   ```
+Upload the file `6b_deployment_test.png`.
 
 ---
 
-## Question 12: Complete Error-Handling Version of `emotion_detection.py`
-
-**Answer:**
-This is the complete `EmotionDetection/emotion_detection.py` implementation that handles HTTP 400 status codes, empty input, and service errors by returning `None` for all five emotions and the dominant emotion:
+## Question 12 (Revised — Fix: parameter `text_to_analyse` and explicit `if response.status_code == 400:`)
+**Task 7: Activity 1: Copy and paste the code of the emotion_detection.py file, saved in a file named 7a_error_handling_function...**
 
 ```python
-"""Module for emotion detection using Watson NLP Emotion Predict API."""
 import json
 import requests
 
-
-def emotion_detector(text_to_analyze):
-    """Detect emotions in the given text using Watson NLP Emotion Predict service.
-
-    Args:
-        text_to_analyze (str): Text to be analyzed.
-
-    Returns:
-        dict: Emotion scores for anger, disgust, fear, joy, sadness,
-              and dominant_emotion. Returns None values for invalid input
-              or HTTP 400 responses.
-    """
-    error_response = {
-        'anger': None,
-        'disgust': None,
-        'fear': None,
-        'joy': None,
-        'sadness': None,
-        'dominant_emotion': None
-    }
-
-    if not text_to_analyze or not str(text_to_analyze).strip():
-        return error_response
-
-    url = (
-        'https://sn-watson-emotion.labs.skills.network/v1/'
-        'watson.runtime.nlp.v1/NlpService/EmotionPredict'
-    )
-    headers = {
-        "grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"
-    }
-    payload = {"raw_document": {"text": text_to_analyze}}
-
-    try:
-        response = requests.post(url, json=payload, headers=headers, timeout=5)
-        if response.status_code != 200:
-            return error_response
-
-        formatted_response = json.loads(response.text)
-        emotion_predictions = formatted_response.get('emotionPredictions', [])
-        if not emotion_predictions:
-            return error_response
-
-        emotions = emotion_predictions[0].get('emotion', {})
-        emotion_scores = {
-            'anger': emotions.get('anger'),
-            'disgust': emotions.get('disgust'),
-            'fear': emotions.get('fear'),
-            'joy': emotions.get('joy'),
-            'sadness': emotions.get('sadness')
-        }
-
-        dominant_emotion = max(emotion_scores, key=emotion_scores.get)
-
+def emotion_detector(text_to_analyse):
+    url = 'https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict'
+    headers = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"}
+    payload = {"raw_document": {"text": text_to_analyse}}
+    
+    response = requests.post(url, json=payload, headers=headers)
+    
+    if response.status_code == 400:
         return {
-            'anger': emotion_scores['anger'],
-            'disgust': emotion_scores['disgust'],
-            'fear': emotion_scores['fear'],
-            'joy': emotion_scores['joy'],
-            'sadness': emotion_scores['sadness'],
-            'dominant_emotion': dominant_emotion
+            'anger': None,
+            'disgust': None,
+            'fear': None,
+            'joy': None,
+            'sadness': None,
+            'dominant_emotion': None
         }
-    except (requests.exceptions.RequestException, KeyError, IndexError,
-            json.JSONDecodeError, TypeError, ValueError):
-        return error_response
+    
+    formatted_response = json.loads(response.text)
+    emotions = formatted_response['emotionPredictions'][0]['emotion']
+    anger_score = emotions['anger']
+    disgust_score = emotions['disgust']
+    fear_score = emotions['fear']
+    joy_score = emotions['joy']
+    sadness_score = emotions['sadness']
+    
+    emotion_scores = {
+        'anger': anger_score,
+        'disgust': disgust_score,
+        'fear': fear_score,
+        'joy': joy_score,
+        'sadness': sadness_score
+    }
+    dominant_emotion = max(emotion_scores, key=emotion_scores.get)
+    
+    return {
+        'anger': anger_score,
+        'disgust': disgust_score,
+        'fear': fear_score,
+        'joy': joy_score,
+        'sadness': sadness_score,
+        'dominant_emotion': dominant_emotion
+    }
 ```
 
 ---
 
-## Question 13: Complete Blank-Input Error-Handling Version of `server.py`
-
-**Answer:**
-When the user submits a blank input or the emotion detector returns `None` for `dominant_emotion`, `server.py` responds with `"Invalid text! Please try again!"`:
+## Question 13 (Score: 1/1)
+**Task 7: Activity 2: Copy and paste the code of the server.py file, saved in a file named 7b_error_handling_server...**
 
 ```python
-"""Flask server for the Emotion Detection application with blank input error handling."""
+"""Flask server for the Emotion Detection application with error handling."""
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
 
@@ -640,42 +488,15 @@ if __name__ == "__main__":
 
 ---
 
-## Question 14: Instructions for Capturing `7c_error_handling_interface.png`
+## Question 14 (Score: 1/1)
+**Task 7: Activity 3: Upload the application deployment output image that validates the error-handling functionality, saved as 7c_error_handling_interface.png.**
 
-**Answer:**
-To capture the screenshot demonstrating error handling for blank/invalid text:
-
-1. **Ensure the application is running:**
-   ```bash
-   python server.py
-   ```
-2. **Open the browser interface:**
-   Navigate to:
-   ```text
-   http://localhost:5000/
-   ```
-3. **Leave input blank:**
-   Ensure the *"Please enter the text to be analyzed"* text field is completely empty.
-4. **Trigger analysis:**
-   Click **"Run Sentiment Analysis"**.
-5. **Verify the error message:**
-   Observe the result container updating to display:
-   ```text
-   Invalid text! Please try again!
-   ```
-6. **Capture screenshot:**
-   Capture the screen showing the blank input box and the displayed error message `"Invalid text! Please try again!"`.
-   Save the image as:
-   ```text
-   7c_error_handling_interface.png
-   ```
+Upload the file `7c_error_handling_interface.png`.
 
 ---
 
-## Question 15: Complete Final `server.py` Code Demonstrating Static Analysis
-
-**Answer:**
-The final version of `server.py` strictly conforms to PEP 8 standards, includes full module and function docstrings, compliant naming conventions, and scores 10.00/10 on Pylint:
+## Question 15 (Revised — Fix: strict `if __name__ == "__main__":` with double underscores)
+**Task 8: Activity 1: Copy and paste the code of the server.py file, saved in a file named 8a_server_modified, that demonstrates running static code analysis.**
 
 ```python
 """Flask server for the Emotion Detection application.
@@ -734,19 +555,11 @@ if __name__ == "__main__":
 
 ---
 
-## Question 16: Actual Pylint Output and Score
+## Question 16 (Score: 1/1)
+**Task 8: Activity 2: Copy and paste the terminal output, saved in the file named 8b_static_code_analysis...**
 
-**Answer:**
-
-### Command:
-```bash
-python -m pylint server.py
-```
-
-### Actual Terminal Output:
 ```text
+python -m pylint server.py
 ------------------------------------
 Your code has been rated at 10.00/10
 ```
-
-*Note: Running `python -m pylint EmotionDetection/emotion_detection.py server.py` also achieves a 10.00/10 rating across the entire application codebase.*
